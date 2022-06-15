@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.mapper.usersMapper">
+
+  <resultMap id="BaseResultMap" type="com.springboot.model.users">
+    <!--
+      resultMap：1.当数据库和springboot中的属性名不一致，就可以转换
+                 2. 看不懂
+      id：只修饰主键
+      result：修饰除了主键以外的字段
+      column： 字段名称
+      property： 映射对象的属性名称
+      jdbcType： 列在数据库中的字段类型，可省略
+    -->
+    <id column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="authority" jdbcType="INTEGER" property="authority" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+  </resultMap>
+
+    <!--SQL语句的某一个公共片段，抽取出来并定义成id
+        然后通过include标签引用-->
+  <sql id="Base_Column_List">
+    username, password, email, authority, telephone
+  </sql>
+
+  <!--parameterType：参数类型
+      id：适配的函数名
+      #{}里的就是参数变量-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from users
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAllLike" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from users
+    where username like #{username,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from users
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from users
+    where username = #{username,jdbcType=VARCHAR}
+  </delete>
+
+  <!--每个字段都要赋值-->
+  <insert id="insert" parameterType="com.springboot.model.users">
+    insert into users (username, password, email, 
+      authority, telephone)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{authority,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR})
+  </insert>
+
+  <!--不用每个字段都赋值-->
+  <!--trim：拼接字符串
+      prefix：前缀
+      suffix：后缀
+      suffixOverrides：去除一个多余的逗号-->
+  <insert id="insertSelective" parameterType="com.springboot.model.users">
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="authority != null">
+        authority,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="authority != null">
+        #{authority,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!--update同理-->
+  <!--set：会自动把最后一个逗号删除-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.model.users">
+    update users
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="authority != null">
+        authority = #{authority,jdbcType=INTEGER},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.springboot.model.users">
+    update users
+    set password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      authority = #{authority,jdbcType=INTEGER},
+      telephone = #{telephone,jdbcType=VARCHAR}
+    where username = #{username,jdbcType=VARCHAR}
+  </update>
+</mapper>

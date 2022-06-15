@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.mapper.antiquesMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.model.antiques">
+    <id column="wwId" jdbcType="INTEGER" property="wwid" />
+    <result column="serialNum" jdbcType="VARCHAR" property="serialnum" />
+    <result column="wwName" jdbcType="VARCHAR" property="wwname" />
+    <result column="registerId" jdbcType="VARCHAR" property="registerid" />
+    <result column="protectionLevel" jdbcType="VARCHAR" property="protectionlevel" />
+    <result column="wwCategory" jdbcType="VARCHAR" property="wwcategory" />
+    <result column="publishingBatch" jdbcType="VARCHAR" property="publishingbatch" />
+    <result column="publishingYear" jdbcType="VARCHAR" property="publishingyear" />
+    <result column="wwLocation1" jdbcType="VARCHAR" property="wwlocation1" />
+    <result column="wwLocation2" jdbcType="VARCHAR" property="wwlocation2" />
+    <result column="wwLocation3" jdbcType="VARCHAR" property="wwlocation3" />
+    <result column="specificLocation" jdbcType="VARCHAR" property="specificlocation" />
+    <result column="wwOrganization" jdbcType="VARCHAR" property="wworganization" />
+    <result column="wwLatitude1" jdbcType="VARCHAR" property="wwlatitude1" />
+    <result column="wwLongitude1" jdbcType="VARCHAR" property="wwlongitude1" />
+    <result column="wwElevation" jdbcType="VARCHAR" property="wwelevation" />
+    <result column="wwYear" jdbcType="VARCHAR" property="wwyear" />
+    <result column="briefInfo" jdbcType="VARCHAR" property="briefinfo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    wwId, serialNum, wwName, registerId, protectionLevel, wwCategory, publishingBatch, 
+    publishingYear, wwLocation1, wwLocation2, wwLocation3, specificLocation, wwOrganization, 
+    wwLatitude1, wwLongitude1,
+    wwElevation, wwYear, briefInfo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from antique_profile
+    where wwId = #{wwid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByNum" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from antique_profile
+    where serialNum = #{serialnum,jdbcType=VARCHAR}
+  </select>
+  <select id="findLike" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from antique_profile
+    where wwName like #{wwname} and protectionLevel like #{protectionlevel} and wwCategory like #{wwcategory} and wwLocation1 like #{wwlocation1} and wwLocation2 like #{wwlocation2} and wwLocation3 like #{wwlocation3} and wwYear like #{wwyear}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from antique_profile
+  </select>
+  <select id="selectAllLike" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from antique_profile
+    where wwName like #{wwname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from antique_profile
+    where wwId = #{wwid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.model.antiques">
+    insert into antique_profile (wwId, serialNum, wwName, 
+      registerId, protectionLevel, wwCategory, 
+      publishingBatch, publishingYear, wwLocation1, 
+      wwLocation2, wwLocation3, specificLocation, 
+      wwOrganization, wwLatitude1, wwLongitude1, wwElevation, wwYear,
+      briefInfo)
+    values (#{wwid,jdbcType=INTEGER}, #{serialnum,jdbcType=VARCHAR}, #{wwname,jdbcType=VARCHAR}, 
+      #{registerid,jdbcType=VARCHAR}, #{protectionlevel,jdbcType=VARCHAR}, #{wwcategory,jdbcType=VARCHAR}, 
+      #{publishingbatch,jdbcType=VARCHAR}, #{publishingyear,jdbcType=VARCHAR}, #{wwlocation1,jdbcType=VARCHAR}, 
+      #{wwlocation2,jdbcType=VARCHAR}, #{wwlocation3,jdbcType=VARCHAR}, #{specificlocation,jdbcType=VARCHAR}, 
+      #{wworganization,jdbcType=VARCHAR}, #{wwlatitude1,jdbcType=VARCHAR}, #{wwlongitude1,jdbcType=VARCHAR},
+      #{wwelevation,jdbcType=VARCHAR}, #{wwyear,jdbcType=VARCHAR},
+      #{briefinfo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.model.antiques">
+    insert into antique_profile
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="wwid != null">
+        wwId,
+      </if>
+      <if test="serialnum != null">
+        serialNum,
+      </if>
+      <if test="wwname != null">
+        wwName,
+      </if>
+      <if test="registerid != null">
+        registerId,
+      </if>
+      <if test="protectionlevel != null">
+        protectionLevel,
+      </if>
+      <if test="wwcategory != null">
+        wwCategory,
+      </if>
+      <if test="publishingbatch != null">
+        publishingBatch,
+      </if>
+      <if test="publishingyear != null">
+        publishingYear,
+      </if>
+      <if test="wwlocation1 != null">
+        wwLocation1,
+      </if>
+      <if test="wwlocation2 != null">
+        wwLocation2,
+      </if>
+      <if test="wwlocation3 != null">
+        wwLocation3,
+      </if>
+      <if test="specificlocation != null">
+        specificLocation,
+      </if>
+      <if test="wworganization != null">
+        wwOrganization,
+      </if>
+      <if test="wwlatitude1 != null">
+        wwLatitude1,
+      </if>
+      <if test="wwlongitude1 != null">
+        wwLongitude1,
+      </if>
+      <if test="wwelevation != null">
+        wwElevation,
+      </if>
+      <if test="wwyear != null">
+        wwYear,
+      </if>
+      <if test="briefinfo != null">
+        briefInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="wwid != null">
+        #{wwid,jdbcType=INTEGER},
+      </if>
+      <if test="serialnum != null">
+        #{serialnum,jdbcType=VARCHAR},
+      </if>
+      <if test="wwname != null">
+        #{wwname,jdbcType=VARCHAR},
+      </if>
+      <if test="registerid != null">
+        #{registerid,jdbcType=VARCHAR},
+      </if>
+      <if test="protectionlevel != null">
+        #{protectionlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="wwcategory != null">
+        #{wwcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="publishingbatch != null">
+        #{publishingbatch,jdbcType=VARCHAR},
+      </if>
+      <if test="publishingyear != null">
+        #{publishingyear,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlocation1 != null">
+        #{wwlocation1,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlocation2 != null">
+        #{wwlocation2,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlocation3 != null">
+        #{wwlocation3,jdbcType=VARCHAR},
+      </if>
+      <if test="specificlocation != null">
+        #{specificlocation,jdbcType=VARCHAR},
+      </if>
+      <if test="wworganization != null">
+        #{wworganization,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlatitude1 != null">
+        #{wwlatitude1,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlongitude1 != null">
+        #{wwlongitude1,jdbcType=VARCHAR},
+      </if>
+      <if test="wwelevation != null">
+        #{wwelevation,jdbcType=VARCHAR},
+      </if>
+      <if test="wwyear != null">
+        #{wwyear,jdbcType=VARCHAR},
+      </if>
+      <if test="briefinfo != null">
+        #{briefinfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.model.antiques">
+    update antique_profile
+    <set>
+      <if test="serialnum != null">
+        serialNum = #{serialnum,jdbcType=VARCHAR},
+      </if>
+      <if test="wwname != null">
+        wwName = #{wwname,jdbcType=VARCHAR},
+      </if>
+      <if test="registerid != null">
+        registerId = #{registerid,jdbcType=VARCHAR},
+      </if>
+      <if test="protectionlevel != null">
+        protectionLevel = #{protectionlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="wwcategory != null">
+        wwCategory = #{wwcategory,jdbcType=VARCHAR},
+      </if>
+      <if test="publishingbatch != null">
+        publishingBatch = #{publishingbatch,jdbcType=VARCHAR},
+      </if>
+      <if test="publishingyear != null">
+        publishingYear = #{publishingyear,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlocation1 != null">
+        wwLocation1 = #{wwlocation1,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlocation2 != null">
+        wwLocation2 = #{wwlocation2,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlocation3 != null">
+        wwLocation3 = #{wwlocation3,jdbcType=VARCHAR},
+      </if>
+      <if test="specificlocation != null">
+        specificLocation = #{specificlocation,jdbcType=VARCHAR},
+      </if>
+      <if test="wworganization != null">
+        wwOrganization = #{wworganization,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlatitude1 != null">
+        wwLatitude1 = #{wwlatitude1,jdbcType=VARCHAR},
+      </if>
+      <if test="wwlongitude1 != null">
+        wwLongitude1 = #{wwlongitude1,jdbcType=VARCHAR},
+      </if>
+      <if test="wwelevation != null">
+        wwElevation = #{wwelevation,jdbcType=VARCHAR},
+      </if>
+      <if test="wwyear != null">
+        wwYear = #{wwyear,jdbcType=VARCHAR},
+      </if>
+      <if test="briefinfo != null">
+        briefInfo = #{briefinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where wwId = #{wwid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.model.antiques">
+    update antique_profile
+    set serialNum = #{serialnum,jdbcType=VARCHAR},
+      wwName = #{wwname,jdbcType=VARCHAR},
+      registerId = #{registerid,jdbcType=VARCHAR},
+      protectionLevel = #{protectionlevel,jdbcType=VARCHAR},
+      wwCategory = #{wwcategory,jdbcType=VARCHAR},
+      publishingBatch = #{publishingbatch,jdbcType=VARCHAR},
+      publishingYear = #{publishingyear,jdbcType=VARCHAR},
+      wwLocation1 = #{wwlocation1,jdbcType=VARCHAR},
+      wwLocation2 = #{wwlocation2,jdbcType=VARCHAR},
+      wwLocation3 = #{wwlocation3,jdbcType=VARCHAR},
+      specificLocation = #{specificlocation,jdbcType=VARCHAR},
+      wwOrganization = #{wworganization,jdbcType=VARCHAR},
+      wwLatitude1 = #{wwlatitude1,jdbcType=VARCHAR},
+      wwLongitude1 = #{wwlongitude1,jdbcType=VARCHAR},
+      wwElevation = #{wwelevation,jdbcType=VARCHAR},
+      wwYear = #{wwyear,jdbcType=VARCHAR},
+      briefInfo = #{briefinfo,jdbcType=VARCHAR}
+    where wwId = #{wwid,jdbcType=INTEGER}
+  </update>
+</mapper>

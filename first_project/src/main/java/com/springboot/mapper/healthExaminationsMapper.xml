@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.mapper.healthExaminationsMapper">
+  <resultMap id="BaseResultMap" type="com.springboot.model.healthExaminations">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="parentId" jdbcType="INTEGER" property="parentid" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+    <result column="length" jdbcType="VARCHAR" property="length" />
+    <result column="width" jdbcType="VARCHAR" property="width" />
+    <result column="date" jdbcType="VARCHAR" property="date" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="temp" jdbcType="VARCHAR" property="temp" />
+    <result column="humidity" jdbcType="VARCHAR" property="humidity" />
+    <result column="airquality" jdbcType="VARCHAR" property="airquality" />
+    <result column="displaceme" jdbcType="VARCHAR" property="displaceme" />
+    <result column="smallchange" jdbcType="VARCHAR" property="smallchange" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, parentId, height, length, width, date ,username,temp,humidity,airquality,displaceme,smallchange,status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from health_examination
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="findLike" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from health_examination
+    where date like #{s} and parentid = #{parentId}
+  </select>
+  <select id="findAllByparentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from health_examination
+    where parentid = #{parentId,jdbcType=INTEGER}
+  </select>
+  <select id="findNewestId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select max(id)
+    from health_examination
+    where parentid = #{wwid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from health_examination
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.springboot.model.healthExaminations" useGeneratedKeys="true" keyProperty="id">
+    insert into health_examination (id, parentId, height, 
+      length, width, date,username,temp,humidity,airquality,displaceme,smallchange,status)
+    values (#{id,jdbcType=INTEGER}, #{parentid,jdbcType=INTEGER}, #{height,jdbcType=VARCHAR}, 
+      #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR},
+      #{username,jdbcType=VARCHAR},#{temp,jdbcType=VARCHAR},#{humidity,jdbcType=VARCHAR},
+      #{airquality,jdbcType=VARCHAR},#{displaceme,jdbcType=VARCHAR},#{smallchange,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.springboot.model.healthExaminations">
+    insert into health_examination
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="parentid != null">
+        parentId,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="length != null">
+        length,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="date != null">
+        date,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="temp != null">
+        temp,
+      </if>
+      <if test="humidity != null">
+        humidity,
+      </if>
+      <if test="airquality != null">
+        airquality,
+      </if>
+      <if test="displaceme != null">
+        displaceme,
+      </if>
+      <if test="smallchange != null">
+        smallchange,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="parentid != null">
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="temp != null">
+        #{temp,jdbcType=VARCHAR},
+      </if>
+      <if test="humidity != null">
+        #{humidity,jdbcType=VARCHAR},
+      </if>
+      <if test="airquality != null">
+        #{airquality,jdbcType=VARCHAR},
+      </if>
+      <if test="displaceme != null">
+        #{displaceme,jdbcType=VARCHAR},
+      </if>
+      <if test="smallchange != null">
+        #{smallchange,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.springboot.model.healthExaminations">
+    update health_examination
+    <set>
+      <if test="parentid != null">
+        parentId = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        length = #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        date = #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="temp != null">
+        temp = #{temp,jdbcType=VARCHAR},
+      </if>
+      <if test="humidity != null">
+        humidity = #{humidity,jdbcType=VARCHAR},
+      </if>
+      <if test="airquality != null">
+        airquality = #{airquality,jdbcType=VARCHAR},
+      </if>
+      <if test="displaceme != null">
+        displaceme = #{displaceme,jdbcType=VARCHAR},
+      </if>
+      <if test="smallchange != null">
+        smallchange = #{smallchange,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.springboot.model.healthExaminations">
+    update health_examination
+    set parentId = #{parentid,jdbcType=INTEGER},
+      height = #{height,jdbcType=VARCHAR},
+      length = #{length,jdbcType=VARCHAR},
+      width = #{width,jdbcType=VARCHAR},
+      date = #{date,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      temp = #{temp,jdbcType=VARCHAR},
+      humidity = #{humidity,jdbcType=VARCHAR},
+      airquality = #{airquality,jdbcType=VARCHAR},
+      displaceme = #{displaceme,jdbcType=VARCHAR},
+      smallchange = #{smallchange,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
